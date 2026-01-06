@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ project['name'] }}</h1>
+  
+  <p><strong>Descrizione:</strong> {{ project['description'] or 'Nessuna descrizione' }}</p>
+  <p><strong>Budget:</strong> €{{ "%.2f"|format(project['budget']) }}</p>
+  <p><strong>Stato:</strong> {{ project['status'] }}</p>
+  <p><strong>Creato da:</strong> {{ project['creator_name'] }}</p>
+  <p><strong>Creato il:</strong> {{ project['created'] }}</p>
+  
+  {% if g.user and g.user['id'] == project['created_by'] %}
+    <a href="{{ url_for('projects.update', id=project['id']) }}">Modifica</a>
+  {% endif %}
+  
+  <hr>
+  
+  <h2>Finanziatori</h2>
+  
+  {% for client in clients %}
+    <article>
+      <header>
+        <h3><a href="{{ url_for('clients.detail', id=client['id']) }}">{{ client['username'] }}</a></h3>
+        <small>Email: {{ client['email'] or '-' }} - Tel: {{ client['phone'] or '-' }}</small>
+      </header>
+      {% if g.user and g.user['id'] == project['created_by'] %}
+        <form action="{{ url_for('projects.remove_client', id=project['id'], client_id=client['id']) }}" 
+              method="post" style="display: inline;">
+          <input type="submit" value="Rimuovi" onclick="return confirm('Rimuovere questo finanziatore?')">
+        </form>
+      {% endif %}
+    </article>
+    <hr>
+  {% else %}
+    <p>Nessun finanziatore associato.</p>
+  {% endfor %}
+  
+  {% if g.user and g.user['id'] == project['created_by'] and available_clients %}
+    <h3>Aggiungi Finanziatore</h3>
+    <form action="{{ url_for('projects.add_client', id=project['id']) }}" method="post">
+      <select name="client_id" required>
+        <option value="">-- Seleziona cliente --</option>
+        {% for client in available_clients %}
+          <option value="{{ client['id'] }}">{{ client['username'] }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Aggiungi">
+    </form>
+  {% endif %}
+  
+  <hr>
+  <a href="{{ url_for('projects.index') }}">&larr; Torna alla lista progetti</a>
+{% endblock %}

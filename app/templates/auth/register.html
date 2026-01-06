@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Registrazione</h2>
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" required>
+    
+    <label for="phone">Telefono</label>
+    <input type="tel" name="phone" id="phone" required 
+           pattern="[0-9]+" maxlength="15" minlength="6"
+           title="Inserisci solo numeri (6-15 cifre)">
+    
+    <input type="submit" value="Registrati">
+  </form>
+{% endblock %}

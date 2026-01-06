@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>🏗️ Majima Construction</h1>
+  
+  <img src="{{ url_for('static', filename='images/majima_crew.png') }}" 
+       alt="Majima Construction - We Build Shit" 
+       style="max-width: 100%; width: 800px; display: block; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+  
+  <p>Benvenuto in <strong>Majima Construction</strong>, il sistema di gestione per la tua impresa edile. 
+  Qui puoi gestire i tuoi progetti di costruzione, tenere traccia dei clienti e monitorare 
+  budget e stati di avanzamento in modo semplice e organizzato.</p>
+  
+  <!-- Mostra il tasto 'Nuovo Progetto' solo se sei loggato -->
+  {% if g.user %}
+    <a href="{{ url_for('projects.create') }}">Crea nuovo progetto</a>
+    <hr>
+  {% endif %}
+
+  <h2>Progetti</h2>
+  {% for project in projects %}
+    <article>
+      <header>
+          <h3><a href="{{ url_for('projects.detail', id=project['id']) }}">{{ project['name'] }}</a></h3>
+          <small>Budget: €{{ "%.2f"|format(project['budget']) }} - Stato: {{ project['status'] }} - Creato da: {{ project['creator_name'] }}</small>
+      </header>
+      <p>{{ project['description'] or 'Nessuna descrizione' }}</p>
+    </article>
+    <hr>
+  {% endfor %}
+{% endblock %}

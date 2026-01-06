@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Elenco Clienti</h1>
+
+  {% for client in clients %}
+    <article>
+      <header>
+        <h3><a href="{{ url_for('clients.detail', id=client['id']) }}">{{ client['username'] }}</a></h3>
+        <small>Email: {{ client['email'] or '-' }} - Tel: {{ client['phone'] or '-' }}</small>
+      </header>
+    </article>
+    <hr>
+  {% else %}
+    <p>Nessun cliente presente.</p>
+  {% endfor %}
+{% endblock %}

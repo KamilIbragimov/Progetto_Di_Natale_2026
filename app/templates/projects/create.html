@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Nuovo Progetto</h1>
+  <form method="post">
+    <label for="name">Nome Progetto</label>
+    <input name="name" id="name" required>
+
+    <label for="description">Descrizione</label>
+    <textarea name="description" id="description" rows="5"></textarea>
+
+    <label for="budget">Budget (€)</label>
+    <input type="number" name="budget" id="budget" step="0.01" min="0" value="0">
+
+    <input type="submit" value="Crea Progetto">
+  </form>
+{% endblock %}

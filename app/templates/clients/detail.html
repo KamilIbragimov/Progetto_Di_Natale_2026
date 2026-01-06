@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ client['username'] }}</h1>
+  
+  <p><strong>Email:</strong> {{ client['email'] or 'Non specificata' }}</p>
+  <p><strong>Telefono:</strong> {{ client['phone'] or 'Non specificato' }}</p>
+  <p><strong>Registrato il:</strong> {{ client['created'] }}</p>
+  
+  <hr>
+  
+  <h2>Progetti Finanziati</h2>
+  
+  {% for project in projects %}
+    <article>
+      <header>
+        <h3><a href="{{ url_for('projects.detail', id=project['id']) }}">{{ project['name'] }}</a></h3>
+        <small>Budget: €{{ "%.2f"|format(project['budget']) }} - Stato: {{ project['status'] }}</small>
+      </header>
+    </article>
+    <hr>
+  {% else %}
+    <p>Questo cliente non finanzia ancora nessun progetto.</p>
+  {% endfor %}
+  
+  <a href="{{ url_for('clients.index') }}">&larr; Torna alla lista clienti</a>
+{% endblock %}

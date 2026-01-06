@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Gestione Progetti</h1>
+  
+  {% if g.user %}
+    <a href="{{ url_for('projects.create') }}">Nuovo Progetto</a>
+    <hr>
+  {% endif %}
+
+  {% for project in projects %}
+    <article>
+      <header>
+        <h3><a href="{{ url_for('projects.detail', id=project['id']) }}">{{ project['name'] }}</a></h3>
+        <small>Budget: €{{ "%.2f"|format(project['budget']) }} - Stato: {{ project['status'] }} - Creato da: {{ project['creator_name'] }}</small>
+      </header>
+      <p>{{ project['description'] or 'Nessuna descrizione' }}</p>
+      
+      {% if g.user and g.user['id'] == project['created_by'] %}
+        <a href="{{ url_for('projects.update', id=project['id']) }}">Modifica</a>
+      {% endif %}
+    </article>
+    <hr>
+  {% else %}
+    <p>Nessun progetto presente.</p>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Modifica "{{ project['name'] }}"</h1>
+  
+  <!-- Form di Modifica -->
+  <form method="post">
+    <label for="name">Nome Progetto</label>
+    <input name="name" id="name" value="{{ request.form.get('name') or project['name'] }}" required>
+
+    <label for="description">Descrizione</label>
+    <textarea name="description" id="description" rows="5">{{ request.form.get('description') or project['description'] or '' }}</textarea>
+
+    <label for="budget">Budget (€)</label>
+    <input type="number" name="budget" id="budget" step="0.01" min="0"
+           value="{{ request.form.get('budget') or project['budget'] }}">
+
+    <label for="status">Stato</label>
+    <select name="status" id="status">
+      {% for status in statuses %}
+        <option value="{{ status }}" {{ 'selected' if (request.form.get('status') or project['status']) == status }}>
+          {{ status|replace('_', ' ')|title }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <input type="submit" value="Salva Modifiche">
+  </form>
+
+  <hr>
+  
+  <!-- Form di Cancellazione (Separato) -->
+  <form action="{{ url_for('projects.delete', id=project['id']) }}" method="post">
+    <input type="submit" value="Elimina Progetto" onclick="return confirm('Sei sicuro di voler eliminare questo progetto?')">
+  </form>
+{% endblock %}
