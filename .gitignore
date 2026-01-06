@@ -3,6 +3,22 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database locale
+instance/
+
+# File di sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
 # C extensions
 *.so
 
