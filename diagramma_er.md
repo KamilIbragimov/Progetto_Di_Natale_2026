@@ -4,21 +4,21 @@
 erDiagram
     CLIENT {
         INTEGER id PK
-        TEXT username UK
-        TEXT password
+        TEXT username UK "NOT NULL"
+        TEXT password "NOT NULL"
         TEXT email UK
         TEXT phone UK
-        TIMESTAMP created
+        TIMESTAMP created "NOT NULL"
     }
     
     PROJECT {
         INTEGER id PK
-        TEXT name UK
+        TEXT name UK "NOT NULL"
         TEXT description
         REAL budget
         TEXT status
-        INTEGER created_by FK
-        TIMESTAMP created
+        INTEGER created_by FK "NOT NULL"
+        TIMESTAMP created "NOT NULL"
     }
     
     PROJECT_CLIENT {
@@ -27,9 +27,8 @@ erDiagram
     }
     
     CLIENT ||--o{ PROJECT : "crea"
-    CLIENT }o--o{ PROJECT : "partecipa"
-    CLIENT ||--o{ PROJECT_CLIENT : ""
-    PROJECT ||--o{ PROJECT_CLIENT : ""
+    CLIENT ||--o{ PROJECT_CLIENT : "partecipa"
+    PROJECT ||--o{ PROJECT_CLIENT : "coinvolge"
 ```
 
 ## Legenda
@@ -44,5 +43,6 @@ erDiagram
 
 ## Relazioni
 
-1. **CLIENT → PROJECT (1:N)**: Un client può creare molti progetti
-2. **CLIENT ↔ PROJECT (N:N)**: Un client può partecipare a molti progetti e viceversa (tramite tabella ponte `PROJECT_CLIENT`)
+1. **CLIENT → PROJECT (1:N)**: Un client può creare molti progetti (tramite `created_by`)
+2. **CLIENT → PROJECT_CLIENT (1:N)**: Un client può partecipare a molti progetti
+3. **PROJECT → PROJECT_CLIENT (1:N)**: Un progetto può avere molti partecipanti
