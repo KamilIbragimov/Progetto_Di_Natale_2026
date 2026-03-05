@@ -1,2 +1,5 @@
+gunicorn==25.1.0
+packaging==26.0
 Flask>=3.0.0
 Werkzeug>=3.0.0
+python-dotenv==1.2.2

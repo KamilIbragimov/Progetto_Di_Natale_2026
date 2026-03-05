@@ -5,7 +5,8 @@ import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 from app import create_app
-
+from dotenv import load_dotenv
+load_dotenv()
 # Creiamo l'applicazione Flask
 app = create_app()
 

@@ -8,11 +8,10 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     # 2. Configurazione di base
-    # Qui impostiamo le variabili fondamentali.
     app.config.from_mapping(
-        # SECRET_KEY serve a Flask per firmare i dati sicuri (es. sessioni).
-        # 'dev' va bene per sviluppare, ma in produzione andrà cambiata.
-        SECRET_KEY='dev',
+        # SECRET_KEY viene letta dalla variabile d'ambiente (file .env in locale,
+        # pannello di Render.com in produzione). 'dev' è il valore di fallback.
+        SECRET_KEY=os.environ.get('SECRET_KEY', 'dev'),
         # Diciamo a Flask dove salvare il file del database SQLite
         DATABASE=os.path.join(app.instance_path, 'majima.sqlite'),
         # Sessione NON permanente: si cancella quando chiudi il browser
